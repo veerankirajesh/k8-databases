@@ -9,9 +9,9 @@ metadata:
     tier: db
 spec:
   ports:
-  - protocol: tcp
-    port: 27017 # service port
-    targetPort: 27017
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
   clusterIP: None
   selector:
     app: mongodb
