@@ -17,10 +17,10 @@ spec:
   replicas: {{ .Values.statefulset.replicas }}
   template:
     metadata:
-    labels:
-      app: mongodb
-      project: roboshop
-      tier: db
+      labels:
+        app: mongodb
+        project: roboshop
+        tier: db
     spec:
       containers:
       - name: mongodb
