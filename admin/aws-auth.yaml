@@ -11,10 +11,10 @@ data:
      - roboshop-pod-reader
      userarn: arn:aws:iam::872515251136:user/ramesh
      username: ramesh
-  #  - groups:
-    #  - roboshop-admin
-    #  userarn: arn:aws:iam::315069654700:user/raheem
-    #  username: raheem
+   - groups:
+     - roboshop-admin
+     userarn: arn:aws:iam::872515251136:user/raheem
+     username: raheem
     
 kind: ConfigMap
 metadata:
