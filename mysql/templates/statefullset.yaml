@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: roboshop
+  labels:
+    app: mysql
+    project: roboshop
+    tier: db
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      project: roboshop
+      tier: db  # Must match .spec.template.metadata.labels
+  serviceName: "mysql"
+  replicas: {{ .Values.statefulset.replicas }}
+  template:
+    metadata:
+      labels:
+        app: mysql
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+        - name: mysql
+          image: "rajesh028/mysql:{{ .Values.statefulset.imageVersion }}"
+          envFrom:
+            - configMapRef:
+                name: mysql
+            - secretRef:
+                name: mysql
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "ebs-sc"  # Change to "gp2" or another valid SC if needed
+        resources:
+          requests:
+            storage: 2Gi
