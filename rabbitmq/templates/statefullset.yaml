@@ -8,13 +8,13 @@ metadata:
     project: roboshop
     tier: db
 spec:
-  selector:
-    matchLabels:
-      app: rabbitmql
-      project: roboshop
-      tier: db  # Must match .spec.template.metadata.labels
   serviceName: "rabbitmq"
   replicas: {{ .Values.statefulset.replicas }}
+  selector:
+    matchLabels:
+      app: rabbitmq  
+      project: roboshop
+      tier: db
   template:
     metadata:
       labels:
@@ -26,18 +26,17 @@ spec:
         - name: rabbitmq
           image: "rajesh028/rabbitmq:{{ .Values.statefulset.imageVersion }}"
           envFrom:
-
             - secretRef:
                 name: rabbitmq
           volumeMounts:
             - name: rabbitmq
-              mountPath: /var/lib/rabbitmq # path
+              mountPath: /var/lib/rabbitmq
   volumeClaimTemplates:
     - metadata:
         name: rabbitmq
       spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: "ebs-sc"  # Change to "gp2" or another valid SC if needed
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "ebs-sc"
         resources:
           requests:
             storage: 2Gi
