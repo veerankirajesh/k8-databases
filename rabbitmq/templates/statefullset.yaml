@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+  namespace: roboshop
+  labels:
+    app: rabbitmq
+    project: roboshop
+    tier: db
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmql
+      project: roboshop
+      tier: db  # Must match .spec.template.metadata.labels
+  serviceName: "rabbitmq"
+  replicas: {{ .Values.statefulset.replicas }}
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+        - name: rabbitmq
+          image: "rajesh028/rabbitmq:{{ .Values.statefulset.imageVersion }}"
+          envFrom:
+
+            - secretRef:
+                name: rabbitmq
+          volumeMounts:
+            - name: rabbitmq
+              mountPath: /var/lib/rabbitmq # path
+  volumeClaimTemplates:
+    - metadata:
+        name: rabbitmq
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "ebs-sc"  # Change to "gp2" or another valid SC if needed
+        resources:
+          requests:
+            storage: 2Gi
