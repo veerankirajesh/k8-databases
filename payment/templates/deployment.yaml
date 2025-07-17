@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: "rajesh028/payment:{{ .Values.deployment.imageVersion }}"
+        image: "rajesh028/payment:v1:{{ .Values.deployment.imageVersion }}"
         imagePullPolicy: Always
         resources:
           requests:
