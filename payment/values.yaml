@@ -3,3 +3,8 @@ deployment:
   imageVersion: v1
 hpa:
   averageUtilization: 70
+
+
+
+
+

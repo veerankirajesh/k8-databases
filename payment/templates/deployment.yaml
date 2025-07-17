@@ -3,35 +3,35 @@ kind: Deployment
 metadata:
   name: payment
   namespace: roboshop
-  labels: # these labels are deployment labels
+  labels:
     app: payment
     project: roboshop
     tier: app
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
-    matchLabels: # these labels are used to find the pods
+    matchLabels:
       app: payment
       project: roboshop
       tier: app
   template:
     metadata:
-      labels: # these labels are pod labels
+      labels:
         app: payment
         project: roboshop
         tier: app
     spec:
       containers:
-      - name: payment
-        image: "rajesh028/payment:v1:{{ .Values.deployment.imageVersion }}"
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: "50m"
-            memory: "128Mi"
-          limits:
-            cpu: "100m"
-            memory: "256Mi"
-        envFrom:
-        - secretRef:
-            name: payment
+        - name: payment
+          image: "rajesh028/payment:{{ .Values.deployment.imageVersion }}"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+          envFrom:
+            - secretRef:
+                name: payment-secret
